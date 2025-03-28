@@ -1,0 +1,80 @@
+version: "3.8"
+services:
+  user-service:
+    build:
+      context: ./User_Service  # Correct path to the User Service Dockerfile
+    container_name: user-service
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV_FILE=.env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./User_Service:/app
+
+  booking-service:
+    build:
+      context: ./Booking_Service  # Correct path to the Booking Service Dockerfile
+    container_name: booking-service
+    ports:
+      - "8001:8001"
+    environment:
+      - ENV_FILE=.env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./Booking_Service:/app
+
+  event-service:
+    build:
+      context: ./Event_Service  # Correct path to the Event Service Dockerfile
+    container_name: event-service
+    ports:
+      - "4000:4000"
+    environment:
+      - ENV_FILE=.env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./Event_Service:/app
+
+  rabbitmq-listener:
+    build:
+      context: ./rabbitmq-listener  # Correct path to the RabbitMQ Listener Dockerfile
+    container_name: rabbitmq-listener
+    ports:
+      - "3000:3000"
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./rabbitmq-listener:/app
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"  # AMQP port for RabbitMQ
+      - "15672:15672" # RabbitMQ management UI port
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      retries: 5
+      start_period: 10s
+      timeout: 10s
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+
+volumes:
+  rabbitmq-data:
+    driver: local
+

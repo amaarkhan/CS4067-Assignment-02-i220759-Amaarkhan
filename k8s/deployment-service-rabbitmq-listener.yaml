@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-listener
+  namespace: onlineeventbookingamaar
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq-listener
+  template:
+    metadata:
+      labels:
+        app: rabbitmq-listener
+    spec:
+      containers:
+        - name: rabbitmq-listener
+          image: 22i0759/notification-service:latest
+          imagePullPolicy: Never
+          command: ["node", "reciever.js"]
+          env:
+            - name: RABBITMQ_HOST
+              value: "rabbitmq"  # Use the RabbitMQ service name in Kubernetes
+            - name: RABBITMQ_PORT
+              value: "5672"
+          resources:
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+  namespace: onlineeventbookingamaar
+spec:
+  selector:
+    app: rabbitmq
+  ports:
+    - name: amqp
+      port: 5672
+      targetPort: 5672
+    - name: management
+      port: 15672
+      targetPort: 15672

@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booking-service
+  namespace: onlineeventbookingamaar
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: booking-service
+  template:
+    metadata:
+      labels:
+        app: booking-service
+    spec:
+      containers:
+        - name: booking-service
+          image: 22i0759/booking-service:latest  # Replace with your actual image name
+          ports:
+            - containerPort: 8001
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: user-service-config
+                  key: DATABASE_URL
+            - name: ALGORITHM
+              valueFrom:
+                configMapKeyRef:
+                  name: user-service-config
+                  key: ALGORITHM
+            - name: MONGO_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: user-service-config
+                  key: MONGO_URI
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: user-service-config
+                  key: PORT
+            - name: BOOKING_DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: user-service-config
+                  key: BOOKING_DATABASE_URL
+            - name: BOOKING_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: user-service-config
+                  key: BOOKING_PORT
+            - name: EVENT_SERVICE_URL
+              value: "http://event-service.onlineeventbookingamaar.svc.cluster.local:4000/events/"
+            - name: ENV_FILE
+              value: .env
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: booking-service
+  namespace: onlineeventbookingamaar
+spec:
+  selector:
+    app: booking-service
+  ports:
+    - protocol: TCP
+      port: 8001
+      targetPort: 8001
+  type: ClusterIP  # Change to LoadBalancer if you want to expose it externally
+

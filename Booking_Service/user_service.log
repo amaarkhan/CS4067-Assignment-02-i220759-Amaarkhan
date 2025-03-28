@@ -1,0 +1,27 @@
+2025-02-11 08:25:09,353 - ERROR - User registration failed: test@example.com
+2025-02-11 08:25:21,244 - ERROR - User registration failed: test@example1.com
+2025-02-11 08:25:28,462 - ERROR - User registration failed: test@example1.com
+2025-02-11 08:26:39,631 - ERROR - User registration failed: test@example1.com
+2025-02-11 08:26:51,046 - ERROR - User registration failed: test2@example.com
+2025-02-11 08:49:30,420 - WARNING - Invalid login attempt: new@example.com
+2025-02-11 08:49:41,637 - WARNING - Invalid login attempt: amaar1@example.com
+2025-02-11 08:50:07,065 - WARNING - Invalid login attempt: amaar2@example.com
+2025-02-11 08:50:35,901 - INFO - User logged in: amaar2@example.com
+2025-02-11 09:04:40,834 - INFO - User logged in: amaar2@example.com
+2025-02-11 09:05:15,538 - INFO - User logged in: amaar1@example.com
+2025-02-11 13:01:32,953 - INFO - User logged in: amaar4@example.com
+2025-03-02 14:44:52,841 - WARNING - (trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "C:\Users\fasth\AppData\Local\Programs\Python\Python312\Lib\site-packages\passlib\handlers\bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+2025-03-02 14:45:42,960 - INFO - User logged in: apshaiderbukhari@gmail.com
+2025-03-02 14:46:39,342 - INFO - User logged in: apshaiderbukhari@gmail.com
+2025-03-02 14:46:50,741 - WARNING - (trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "C:\Users\fasth\AppData\Local\Programs\Python\Python312\Lib\site-packages\passlib\handlers\bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+2025-03-02 14:46:50,980 - INFO - User logged in: apshaiderbukhari@gmail.com

@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-service-config
+  namespace: onlineeventbookingamaar
+data:
+  # User Service Config
+  DATABASE_URL: "postgresql"
+  ALGORITHM: "HS256"
+  
+  # Event Service Config
+  MONGO_URI: "mongodb"
+  PORT: "4000"
+  
+  # Booking Service Config
+  BOOKING_DATABASE_URL: "postgresql"  # For Booking Service Database URL
+  BOOKING_PORT: "8001"  # For Booking Service Port
+  
+  #rabbit
+  RABBITMQ_URL: "amqp://rabbitmq:5672"
+  SERVICE_EMAIL: "email"
+  APPLICATION_PASSWORD: "password"
+
